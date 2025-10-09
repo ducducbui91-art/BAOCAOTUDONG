@@ -524,6 +524,16 @@ if template_option == "Template tùy chỉnh":
     template_file = st.file_uploader("Tải lên file template .docx của bạn", type=["docx"])
 
 st.subheader("3. Thông tin cơ bản")
+# (MỚI) Chỉ hiện khi chọn Template tùy chỉnh
+if template_option == "Template tùy chỉnh":
+    st.info(
+        "🔔 **Lưu ý đối với Template tùy chỉnh**\n\n"
+        "- File template **bắt buộc** phải có đúng và đủ các biến sau, **đúng chính tả, không kèm mô tả `{# ... #}`**:\n"
+        "  `{{TenCuocHop}}`, `{{ThoiGianCuocHop}}`, `{{DiaDiemCuocHop}}`, `{{TenChuTri}}`, `{{TenThuKy}}`.\n"
+        "- Ví dụ **không hợp lệ**: `{{TenCuocHop}}{# ... #}` (không được kèm phần mô tả)."
+    )
+else:
+    st.caption("Các trường bắt buộc đã có sẵn trong Template VPI.")
 col1, col2 = st.columns(2)
 with col1:
     meeting_name      = st.text_input("Tên cuộc họp")
