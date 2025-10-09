@@ -217,41 +217,49 @@ def send_email_with_attachment(recipient_email, attachment_buffer, filename="BBC
         return False
 
 #======================================================================
-# PHẦN 2: GIAO DIỆN VÀ LUỒNG CHẠY CỦA WEBAPP
+# PHẦN 2: GIAO DIỆN VÀ LUỒNG CHẠY CỦA WEBAPP (CẬP NHẬT)
 #======================================================================
 
 st.set_page_config(layout="wide", page_title="Công cụ tạo Biên bản cuộc họp")
 st.title("🛠️ Công cụ tạo biên bản cuộc họp tự động")
 
-# --- Cột bên trái cho Hướng dẫn ---
 with st.sidebar:
     st.info("📝 **Hướng dẫn sử dụng**")
     st.markdown("""
-    1.  Tải lên file transcript `.docx`.
-    2.  Tải lên file template `.docx` của bạn.
-    3.  Điền các thông tin cơ bản của cuộc họp.
-    4.  Nhập email để nhận kết quả biên bản.
-    5.  Nhấn 'Tạo biên bản' và chờ kết quả.
+    1.  **Tải file transcript:** Tải lên file `.docx` chứa nội dung cuộc họp.
+    2.  **Chọn Template:**
+        * Sử dụng mẫu có sẵn bằng cách chọn "Template VPI".
+        * Sử dụng mẫu riêng bằng cách chọn "Template tùy chỉnh" và tải file của bạn lên.
+    3.  **Điền thông tin:** Nhập các thông tin cơ bản của cuộc họp.
+    4.  **Nhập email:** Điền địa chỉ email bạn muốn nhận kết quả.
+    5.  **Chạy:** Nhấn nút 'Tạo biên bản' và chờ trong giây lát.
     """)
     st.markdown("---")
     st.success("Ứng dụng được phát triển bởi VPI.")
 
-# --- Phần chính để nhập liệu ---
 st.header("📌 Nhập thông tin đầu vào")
 
-col1, col2 = st.columns(2)
-with col1:
-    transcript_file = st.file_uploader("1. Tải lên file transcript (.docx)", type=["docx"])
-with col2:
-    template_file = st.file_uploader("2. Tải lên file template (.docx)", type=["docx"])
+transcript_file = st.file_uploader("1. Tải lên file transcript (.docx)", type=["docx"])
+
+st.subheader("2. Lựa chọn Template")
+template_option = st.selectbox(
+    "Bạn muốn sử dụng loại template nào?",
+    ("Template VPI", "Template tùy chỉnh"),
+    help="Chọn 'Template VPI' để dùng mẫu có sẵn hoặc 'Template tùy chỉnh' để tải lên file của riêng bạn."
+)
+
+template_file = None
+# Chỉ hiện ô upload khi người dùng chọn "Template tùy chỉnh"
+if template_option == "Template tùy chỉnh":
+    template_file = st.file_uploader("Tải lên file template .docx của bạn", type=["docx"])
 
 st.subheader("3. Thông tin cơ bản")
-col3, col4 = st.columns(2)
-with col3:
+col1, col2 = st.columns(2)
+with col1:
     meeting_name = st.text_input("Tên cuộc họp")
-    meeting_time = st.text_input("Thời gian cuộc họp")
+    meeting_time = st.text_input("Thời gian cuộc họp (VD: 10/9/2025)")
     meeting_location = st.text_input("Địa điểm cuộc họp")
-with col4:
+with col2:
     meeting_chair = st.text_input("Tên chủ trì")
     meeting_secretary = st.text_input("Tên thư ký")
 
@@ -260,35 +268,57 @@ recipient_email = st.text_input("4. Email nhận kết quả")
 # Khi người dùng nhấn nút này, toàn bộ code xử lý MỚI BẮT ĐẦU CHẠY
 if st.button("🚀 Tạo biên bản", type="primary"):
     
-    # Kiểm tra xem người dùng đã nhập đủ thông tin chưa
-    if not all([transcript_file, template_file, recipient_email, meeting_name]):
-        st.warning("Vui lòng điền đầy đủ các thông tin cần thiết và tải lên cả 2 file.")
+    # --- Bắt đầu luồng xử lý ---
+    
+    # Bước 1: Kiểm tra các đầu vào cơ bản
+    if not all([transcript_file, recipient_email, meeting_name]):
+        st.warning("Vui lòng tải lên file transcript và điền đầy đủ Tên cuộc họp, Email nhận kết quả.")
     else:
-        with st.spinner("⏳ Hệ thống đang xử lý, vui lòng chờ..."):
-            
-            st.info("1/4 - Đang đọc và phân tích file...")
-            doc = Document(transcript_file)
-            transcript_content = "\\n".join([para.text for para in doc.paragraphs])
-            placeholders = extract_vars_and_desc(template_file)
+        # Bước 2: Xác định file template sẽ sử dụng
+        template_to_use = None
+        if template_option == "Template VPI":
+            # Tên file template mặc định mà bạn đã đẩy lên GitHub
+            template_to_use = "2025.VPI_BB hop 2025 1.docx" 
+        elif template_file is not None:
+            # File do người dùng tải lên
+            template_to_use = template_file
+        else:
+            st.warning("Bạn đã chọn 'Template tùy chỉnh' nhưng chưa tải file lên.")
 
-            st.info("2/4 - Đang gửi yêu cầu đến AI để tóm tắt...")
-            llm_result = call_gemini_model(transcript_content, placeholders)
+        # Bước 3: Nếu đã có đủ thông tin, bắt đầu xử lý
+        if template_to_use:
+            with st.spinner("⏳ Hệ thống đang xử lý, vui lòng chờ..."):
+                try:
+                    st.info("1/4 - Đang đọc và phân tích file...")
+                    doc = Document(transcript_file)
+                    transcript_content = "\\n".join([para.text for para in doc.paragraphs])
+                    placeholders = extract_vars_and_desc(template_to_use)
 
-            if llm_result:
-                manual_inputs = {
-                    'TenCuocHop': meeting_name, 'ThoiGianCuocHop': meeting_time,
-                    'DiaDiemCuocHop': meeting_location, 'TenChuTri': meeting_chair,
-                    'TenThuKy': meeting_secretary
-                }
-                llm_result.update(manual_inputs)
+                    st.info("2/4 - Đang gửi yêu cầu đến AI để tóm tắt...")
+                    llm_result = call_gemini_model(transcript_content, placeholders)
 
-                st.info("3/4 - Đang tạo file biên bản Word...")
-                docx_buffer = fill_template_to_buffer(template_file, llm_result)
-                
-                if docx_buffer:
-                    st.info("4/4 - Đang gửi kết quả vào email của bạn...")
-                    email_sent = send_email_with_attachment(recipient_email, docx_buffer)
-                    
-                    if email_sent:
-                        st.success("✅ Hoàn thành! Biên bản đã được gửi tới email của bạn.")
-                        st.balloons()
+                    if llm_result:
+                        manual_inputs = {
+                            'TenCuocHop': meeting_name, 'ThoiGianCuocHop': meeting_time,
+                            'DiaDiemCuocHop': meeting_location, 'TenChuTri': meeting_chair,
+                            'TenThuKy': meeting_secretary
+                        }
+                        llm_result.update(manual_inputs)
+
+                        st.info("3/4 - Đang tạo file biên bản Word...")
+                        docx_buffer = fill_template_to_buffer(template_to_use, llm_result)
+                        
+                        if docx_buffer:
+                            st.info("4/4 - Đang gửi kết quả vào email của bạn...")
+                            email_sent = send_email_with_attachment(recipient_email, docx_buffer)
+                            
+                            if email_sent:
+                                st.success("✅ Hoàn thành! Biên bản đã được gửi tới email của bạn.")
+                                st.balloons()
+                            # (Thông báo lỗi gửi mail đã có trong hàm send_email_with_attachment)
+                        else:
+                             st.error("Không thể tạo file Word. Vui lòng kiểm tra lại file template.")
+                    else:
+                        st.error("Không thể lấy kết quả từ AI. Vui lòng thử lại.")
+                except Exception as e:
+                    st.error(f"Đã xảy ra một lỗi không mong muốn: {e}")
