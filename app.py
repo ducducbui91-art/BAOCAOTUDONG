@@ -475,6 +475,37 @@ with st.sidebar:
     """)
     st.markdown("---")
     st.success("Ứng dụng được phát triển bởi VPI.")
+    
+    st.info("📝 **Hướng dẫn tạo template**")
+    st.markdown("""
+📂 File nhận đầu vào là file có đuôi `.docx`
+Khi tạo template cho biên bản cuộc họp, bạn cần mô tả rõ từng biến để đảm bảo hệ thống hiểu đúng và điền thông tin chính xác. Mỗi biến cần tuân thủ cấu trúc sau: 
+{{Ten_bien}}{# Mo_ta_chi_tiet #}
+🔍 Trong đó:
+ ✅ {{Ten_bien}}:
+- Tên biến **viết bằng tiếng Anh hoặc tiếng Việt không dấu**.
+- **Không sử dụng dấu cách**. Nếu cần phân tách các từ, sử dụng **dấu gạch dưới (_)**
+- Dấu ngoặc nhọn kép ({{ và }}) phải **gắn liền với tên biến**, **không có khoảng trắng**.
+- Ví dụ hợp lệ: {{Thanh_phan_tham_du}}
+✅ {# Mo_ta_chi_tiet #}:
+- Mở đầu bằng dấu {#, tiếp theo là nội dung mô tả, và kết thúc bằng dấu #}.
+- Nội dung mô tả phải nêu rõ:
+  - **Thông tin cần điền** vào biến là gì (dữ liệu nội dung).
+  - **Yêu cầu trình bày** dữ liệu như thế nào (ví dụ: dạng bảng, dạng bullet,...).
+  - **Cấu trúc trình bày:** chỉ hỗ trợ **hai cấp trình bày**:
+    - **Bullet cấp 1**: dùng cho ý chính
+    - **Bullet cấp 2**: dùng cho các ý nhỏ bổ sung dưới từng ý chính.
+🧾 Ví dụ cụ thể:
+{{Thanh_phan_tham_du}}{#Danh sách người tham gia cuộc họp, trình bày ở dạng bullet point. Ưu tiên sắp xếp từ lãnh đạo cấp cao, lãnh đạo bộ phận đến chuyên viên. Chỉ sử dụng tối đa 2 cấp trình bày: bullet 1 là tên từng người, bullet 2 là chức vụ hoặc vai trò nếu có.#}
+**🎨 Tạo định dạng hiển thị cho các bullet:**
+📍 Đối với bullet cấp 1:
+- Chọn **Styles Pane** ➜ **Tìm List Bullet** ➜ **Chỉnh sửa format** ➜ **Chọn add to template** ➜ **Nhấn OK**
+📍 Đối với bullet cấp 2:
+- Chọn **Styles Pane** ➜ **Tìm List Bullet 2** ➜ **Chọn Style type: Table** ➜ **Chỉnh sửa format** ➜ **Chọn add to template** ➜ **Nhấn OK**
+📍 Đối với bảng:
+- Chọn **Styles Pane** ➜ Chọn **New Style** ➜ **Chọn Style type: Table** ➜ **Chỉnh sửa format** ➜ Đổi tên thành `"New Table"` ➜ **Chọn add to template** ➜ **Nhấn OK**
+
+    """)
 
 st.subheader("1. Nhập thông tin đầu vào")
 
