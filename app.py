@@ -481,12 +481,12 @@ with st.sidebar:
 Khi tạo template cho biên bản cuộc họp, bạn cần mô tả rõ từng biến để đảm bảo hệ thống hiểu đúng và điền thông tin chính xác. Mỗi biến cần tuân thủ cấu trúc sau: 
 {{Ten_bien}}{# Mo_ta_chi_tiet #}
 🔍 Trong đó:
- ✅ {{Ten_bien}}:
+- ✅ {{Ten_bien}}:
 - Tên biến **viết bằng tiếng Anh hoặc tiếng Việt không dấu**.
 - **Không sử dụng dấu cách**. Nếu cần phân tách các từ, sử dụng **dấu gạch dưới (_)**
 - Dấu ngoặc nhọn kép ({{ và }}) phải **gắn liền với tên biến**, **không có khoảng trắng**.
 - Ví dụ hợp lệ: {{Thanh_phan_tham_du}}
-✅ {# Mo_ta_chi_tiet #}:
+- ✅ {# Mo_ta_chi_tiet #}:
 - Mở đầu bằng dấu {#, tiếp theo là nội dung mô tả, và kết thúc bằng dấu #}.
 - Nội dung mô tả phải nêu rõ:
   - **Thông tin cần điền** vào biến là gì (dữ liệu nội dung).
