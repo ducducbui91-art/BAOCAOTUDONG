@@ -473,8 +473,7 @@ with st.sidebar:
     4.  **Nhập email:** Điền địa chỉ email bạn muốn nhận kết quả.
     5.  **Chạy:** Nhấn nút 'Tạo biên bản'.
     """)
-    st.markdown("---")
-    st.success("Ứng dụng được phát triển bởi VPI.")
+
     
     st.info("📝 **Hướng dẫn tạo template**")
     st.markdown("""
@@ -506,7 +505,9 @@ Khi tạo template cho biên bản cuộc họp, bạn cần mô tả rõ từng
 - Chọn **Styles Pane** ➜ Chọn **New Style** ➜ **Chọn Style type: Table** ➜ **Chỉnh sửa format** ➜ Đổi tên thành `"New Table"` ➜ **Chọn add to template** ➜ **Nhấn OK**
 
     """)
-
+    st.markdown("---")
+    st.success("Ứng dụng được phát triển bởi VPI.")
+    
 st.subheader("1. Nhập thông tin đầu vào")
 
 transcript_file = st.file_uploader("1. Tải lên file transcript (.docx)", type=["docx"])
