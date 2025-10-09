@@ -498,11 +498,11 @@ Khi tạo template cho biên bản cuộc họp, bạn cần mô tả rõ từng
 {{Thanh_phan_tham_du}}{#Danh sách người tham gia cuộc họp, trình bày ở dạng bullet point. Ưu tiên sắp xếp từ lãnh đạo cấp cao, lãnh đạo bộ phận đến chuyên viên. Chỉ sử dụng tối đa 2 cấp trình bày: bullet 1 là tên từng người, bullet 2 là chức vụ hoặc vai trò nếu có.#}
 
 - **🎨 Tạo định dạng hiển thị cho các bullet:**
-📍 Đối với bullet cấp 1:
+- 📍 Đối với bullet cấp 1:
 - Chọn **Styles Pane** ➜ **Tìm List Bullet** ➜ **Chỉnh sửa format** ➜ **Chọn add to template** ➜ **Nhấn OK**
-📍 Đối với bullet cấp 2:
+- 📍 Đối với bullet cấp 2:
 - Chọn **Styles Pane** ➜ **Tìm List Bullet 2** ➜ **Chọn Style type: Table** ➜ **Chỉnh sửa format** ➜ **Chọn add to template** ➜ **Nhấn OK**
-📍 Đối với bảng:
+- 📍 Đối với bảng:
 - Chọn **Styles Pane** ➜ Chọn **New Style** ➜ **Chọn Style type: Table** ➜ **Chỉnh sửa format** ➜ Đổi tên thành `"New Table"` ➜ **Chọn add to template** ➜ **Nhấn OK**
 
     """)
