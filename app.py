@@ -313,7 +313,7 @@ if st.button("🚀 Tạo biên bản", type="primary"):
                             email_sent = send_email_with_attachment(recipient_email, docx_buffer)
                             
                             if email_sent:
-                                st.success("✅ Hoàn thành! Biên bản đã được gửi tới email của bạn.")
+                                st.success("✅ Hoàn thành! Biên bản sẽ được gửi tới email của bạn.")
                                 st.balloons()
                             # (Thông báo lỗi gửi mail đã có trong hàm send_email_with_attachment)
                         else:
