@@ -54,7 +54,7 @@ def extract_vars_and_desc(docx_file_buffer) -> Dict[str, str]:
 
 def call_gemini_model(transcript_content, placeholders):
     """Gửi yêu cầu đến Gemini và nhận về kết quả JSON."""
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.5-flash")
     Prompt_word ="""
 # Vai trò
 Bạn là một trợ lý AI chuyên nghiệp, có nhiệm vụ trích xuất thông tin quan trọng từ bản ghi cuộc họp để tạo ra nội dung cho biên bản cuộc họp, đảm bảo tính chính xác và trình bày chuyên nghiệp.
