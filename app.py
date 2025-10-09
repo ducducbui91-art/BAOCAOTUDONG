@@ -476,7 +476,7 @@ with st.sidebar:
     st.markdown("---")
     st.success("Ứng dụng được phát triển bởi VPI.")
 
-st.header("📌 Nhập thông tin đầu vào")
+st.subheader("1. Nhập thông tin đầu vào")
 
 transcript_file = st.file_uploader("1. Tải lên file transcript (.docx)", type=["docx"])
 
