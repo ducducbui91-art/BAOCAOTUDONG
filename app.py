@@ -543,7 +543,7 @@ with col2:
     meeting_chair     = st.text_input("Tên chủ trì")
     meeting_secretary = st.text_input("Tên thư ký")
 
-recipient_email = st.text_input("4. Email nhận kết quả")
+recipient_email = st.text_input("4. Email nhận kết quả của bạn")
 
 if st.button("🚀 Tạo biên bản", type="primary"):
     if not all([transcript_file, recipient_email, meeting_name]):
