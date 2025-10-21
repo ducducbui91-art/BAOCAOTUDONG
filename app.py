@@ -593,7 +593,7 @@ if st.button("🚀 Tạo biên bản", type="primary"):
                             st.download_button(
                                 "⬇️ Tải về biên bản",
                                 data=docx_buffer,
-                                file_name="Bien_ban_cuoc_hop.docx",
+                                file_name="Bienbancuochop.docx",
                                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                             )
                             # Gửi email (nếu có)
